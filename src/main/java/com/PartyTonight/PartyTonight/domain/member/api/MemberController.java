@@ -12,6 +12,7 @@ public class MemberController {
 
     private final MemberService memberService;
 
+    @CrossOrigin
     @ResponseStatus(HttpStatus.CREATED)
     @GetMapping("/profile")
     public ProfileResponse getProfile() {
