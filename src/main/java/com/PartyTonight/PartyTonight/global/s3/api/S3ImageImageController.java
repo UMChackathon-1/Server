@@ -14,6 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 public class S3ImageImageController implements S3ImageApi {
     private final S3ImageService s3ImageService;
 
+    @CrossOrigin
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("")
     @Override
@@ -21,6 +22,7 @@ public class S3ImageImageController implements S3ImageApi {
         return s3ImageService.uploadImage(image);
     }
 
+    @CrossOrigin
     @ResponseStatus(HttpStatus.CREATED)
     @DeleteMapping("")
     @Override
@@ -28,6 +30,7 @@ public class S3ImageImageController implements S3ImageApi {
         s3ImageService.deleteImage(dto);
     }
 
+    @CrossOrigin
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/download")
     public ByteArrayResource downloadImage(@RequestBody final S3ImageDto dto) {
