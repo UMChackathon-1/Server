@@ -2,7 +2,6 @@ package com.PartyTonight.PartyTonight.global.config;
 
 import com.PartyTonight.PartyTonight.domain.member.repository.MemberRepository;
 import com.PartyTonight.PartyTonight.global.jwt.filter.JwtAuthenticationProcessingFilter;
-import com.PartyTonight.PartyTonight.global.jwt.refresh.service.RefreshTokenService;
 import com.PartyTonight.PartyTonight.global.jwt.service.JwtService;
 import com.PartyTonight.PartyTonight.global.oauth2.handler.OAuth2LoginFailureHandler;
 import com.PartyTonight.PartyTonight.global.oauth2.handler.OAuth2LoginSuccessHandler;
@@ -29,7 +28,6 @@ public class SecurityConfig {
     private final OAuth2LoginSuccessHandler oAuth2LoginSuccessHandler;
     private final OAuth2LoginFailureHandler oAuth2LoginFailureHandler;
     private final CustomOAuth2UserService customOAuth2UserService;
-    private final RefreshTokenService refreshTokenService;
 
 
     @Bean
@@ -62,6 +60,6 @@ public class SecurityConfig {
 
     @Bean
     public JwtAuthenticationProcessingFilter jwtAuthenticationProcessingFilter() {
-        return new JwtAuthenticationProcessingFilter(jwtService, refreshTokenService, memberRepository);
+        return new JwtAuthenticationProcessingFilter(jwtService, memberRepository);
     }
 }

@@ -3,6 +3,7 @@ package com.PartyTonight.PartyTonight.global.s3.api;
 import com.PartyTonight.PartyTonight.global.s3.dto.S3ImageDto;
 import com.PartyTonight.PartyTonight.global.s3.service.S3ImageService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -26,4 +27,11 @@ public class S3ImageImageController implements S3ImageApi {
     public void deleteImage(@RequestBody final S3ImageDto dto) {
         s3ImageService.deleteImage(dto);
     }
+
+    @ResponseStatus(HttpStatus.OK)
+    @GetMapping("/download")
+    public ByteArrayResource downloadImage(@RequestBody final S3ImageDto dto) {
+        return s3ImageService.downloadFile(dto);
+    }
+
 }
