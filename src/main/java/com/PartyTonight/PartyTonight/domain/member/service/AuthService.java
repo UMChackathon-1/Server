@@ -19,13 +19,6 @@ public class AuthService {
     private final MemberRepository memberRepository;
     private final JwtService jwtService;
 
-
-    @Value("${oauth.kakao.admin-key}")
-    private String kakaoAdminKey;
-
-    @Value("${oauth.kakao.withdraw-uri}")
-    private String kakaoWithdrawUri;
-
     public Long getLoginUserId() {
         return getLoginUser().getId();
     }

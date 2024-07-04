@@ -13,4 +13,6 @@ public class PictureRequest {
     @Schema(description = "사진 URL입니다. 공백으로 제출 불가능해용.'")
     @NotBlank
     private String url;
+
+    private String title;
 }
