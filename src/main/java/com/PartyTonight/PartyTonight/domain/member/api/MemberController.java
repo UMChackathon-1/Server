@@ -1,6 +1,5 @@
 package com.PartyTonight.PartyTonight.domain.member.api;
 
-import com.PartyTonight.PartyTonight.domain.member.dto.SignUpRequest;
 import com.PartyTonight.PartyTonight.domain.member.dto.response.ProfileResponse;
 import com.PartyTonight.PartyTonight.domain.member.service.MemberService;
 import lombok.RequiredArgsConstructor;
