@@ -1,4 +1,4 @@
-package com.PartyTonight.PartyTonight.domain.board.dto;
+package com.PartyTonight.PartyTonight.domain.board.dto.request;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
