@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 public class BoardController {
     private final BoardService boardService;
 
+    @CrossOrigin
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("")
     public void createBoard(@Valid @RequestBody BoardRequest request) {

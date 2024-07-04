@@ -17,6 +17,7 @@ import java.util.List;
 public class PictureController implements PictureApi {
     private final PictureService pictureService;
 
+    @CrossOrigin
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("")
     @Override
@@ -24,6 +25,7 @@ public class PictureController implements PictureApi {
         pictureService.createPicture(request);
     }
 
+    @CrossOrigin
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("")
     @Override
@@ -31,36 +33,42 @@ public class PictureController implements PictureApi {
         return pictureService.getAllPictures();
     }
 
+    @CrossOrigin
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/{id}")
     public PictureDetailResponse getPicture(@PathVariable final Long id) {
         return pictureService.getPicture(id);
     }
 
+    @CrossOrigin
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @PostMapping("/{id}/like")
     public void createLike(@PathVariable final Long id) {
         pictureService.createLike(id);
     }
 
+    @CrossOrigin
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/{id}/like")
     public void cancelLike(@PathVariable final Long id) {
         pictureService.cancelLike(id);
     }
 
+    @CrossOrigin
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @PostMapping("/{id}/dislike")
     public void createDislike(@PathVariable final Long id) {
         pictureService.createDislike(id);
     }
 
+    @CrossOrigin
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/{id}/dislike")
     public void cancelDislike(@PathVariable final Long id) {
         pictureService.cancelDislike(id);
     }
 
+    @CrossOrigin
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @PutMapping("/{id}/download")
     public void download(@PathVariable final Long id) {
