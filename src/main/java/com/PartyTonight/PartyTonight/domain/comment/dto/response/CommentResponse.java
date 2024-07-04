@@ -1,4 +1,4 @@
-package com.PartyTonight.PartyTonight.domain.comment.dto;
+package com.PartyTonight.PartyTonight.domain.comment.dto.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

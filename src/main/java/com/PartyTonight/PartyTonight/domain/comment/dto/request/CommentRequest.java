@@ -1,4 +1,4 @@
-package com.PartyTonight.PartyTonight.domain.comment.dto;
+package com.PartyTonight.PartyTonight.domain.comment.dto.request;
 
 import lombok.Getter;
 
