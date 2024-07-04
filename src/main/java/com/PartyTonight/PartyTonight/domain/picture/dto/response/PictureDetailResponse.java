@@ -30,4 +30,9 @@ public class PictureDetailResponse {
     @Schema(description = "작성자 닉네임")
     private String nickname;
 
+    @Schema(description = "사용자가 좋아요 했는지 여부")
+    private Boolean isLiked;
+
+    @Schema(description = "사용자가 싫어요 했는지 여부")
+    private Boolean isDisliked;
 }

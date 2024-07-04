@@ -56,8 +56,10 @@ public class PictureService {
 
     @Transactional
     public PictureDetailResponse getPicture(Long id) {
+        Member member = authService.getLoginUser();
         Picture picture = pictureRepository.findById(id).orElseThrow(EntityNotFoundException::new);
         picture.increaseViews();
+
         return PictureDetailResponse.builder()
                 .url(picture.getUrl())
                 .likeNum(getLikeNum(picture))
@@ -65,6 +67,8 @@ public class PictureService {
                 .dislikeNum(getDislikeNum(picture))
                 .downloadCnt(picture.getDownloadCnt())
                 .nickname(picture.getMember().getNickname())
+                .isLiked(pictureLikeRepository.existsByMemberAndPicture(member, picture))
+                .isDisliked(pictureDislikeRepository.existsByMemberAndPicture(member, picture))
                 .build();
     }
 

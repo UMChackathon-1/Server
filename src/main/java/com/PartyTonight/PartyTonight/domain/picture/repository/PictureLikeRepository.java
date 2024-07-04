@@ -9,4 +9,6 @@ public interface PictureLikeRepository extends JpaRepository<PictureLike, Long> 
     PictureLike findByMemberAndPicture(Member member, Picture picture);
 
     Integer countByPicture(Picture picture);
+
+    Boolean existsByMemberAndPicture(Member member, Picture picture);
 }

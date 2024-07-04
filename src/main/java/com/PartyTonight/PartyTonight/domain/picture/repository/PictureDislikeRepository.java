@@ -9,4 +9,7 @@ public interface PictureDislikeRepository extends JpaRepository<PictureDislike, 
     PictureDislike findByMemberAndPicture(Member member, Picture picture);
 
     Integer countByPicture(Picture picture);
+
+    Boolean existsByMemberAndPicture(Member member, Picture picture);
+
 }
