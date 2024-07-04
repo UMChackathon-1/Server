@@ -1,0 +1,4 @@
+[submodule "src/main/resources/umc-config"]
+	path = src/main/resources/umc-config
+	url = https://github.com/yeonjy/umc-config.git
+	branch = main
