@@ -2,8 +2,6 @@ package com.PartyTonight.PartyTonight.global.jwt.filter;
 
 import com.PartyTonight.PartyTonight.domain.member.entity.Member;
 import com.PartyTonight.PartyTonight.domain.member.repository.MemberRepository;
-import com.PartyTonight.PartyTonight.global.jwt.refresh.domain.RefreshToken;
-import com.PartyTonight.PartyTonight.global.jwt.refresh.service.RefreshTokenService;
 import com.PartyTonight.PartyTonight.global.jwt.service.JwtService;
 import com.PartyTonight.PartyTonight.global.jwt.util.PasswordUtil;
 import jakarta.servlet.FilterChain;
@@ -29,7 +27,6 @@ public class JwtAuthenticationProcessingFilter extends OncePerRequestFilter {
     private static final String NO_CHECK_URL = "/login";
 
     private final JwtService jwtService;
-    private final RefreshTokenService refreshTokenService;
     private final MemberRepository memberRepository;
 
     private GrantedAuthoritiesMapper authoritiesMapper = new NullAuthoritiesMapper();
@@ -41,29 +38,7 @@ public class JwtAuthenticationProcessingFilter extends OncePerRequestFilter {
             filterChain.doFilter(request, response);
             return;
         }
-        String refreshToken = jwtService.extractRefreshToken(request)
-                .filter(jwtService::isTokenValid)
-                .orElse(null);
-
-        if (refreshToken != null) {
-            checkRefreshTokenAndReIssueAccessToken(response, refreshToken);
-            return;
-        }
         checkAccessTokenAndAuthentication(request, response, filterChain);
-    }
-
-    public void checkRefreshTokenAndReIssueAccessToken(HttpServletResponse response, String refreshToken) {
-        RefreshToken refresh = refreshTokenService.findByToken(refreshToken);
-        String reIssuedRefreshToken = reIssueRefreshToken(refresh.getEmail());
-        jwtService.sendAccessAndRefreshToken(response,
-                jwtService.createAccessToken(refresh.getEmail()), reIssuedRefreshToken);
-    }
-
-    private String reIssueRefreshToken(String email) {
-        String reIssuedRefreshToken = jwtService.createRefreshToken();
-
-        refreshTokenService.updateToken(email, reIssuedRefreshToken);
-        return reIssuedRefreshToken;
     }
 
     private void checkAccessTokenAndAuthentication(HttpServletRequest request, HttpServletResponse response,

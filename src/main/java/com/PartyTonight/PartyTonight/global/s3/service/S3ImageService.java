@@ -5,12 +5,11 @@ import com.PartyTonight.PartyTonight.global.s3.exception.FileDeleteFailureExcept
 import com.PartyTonight.PartyTonight.global.s3.exception.FileUploadFailureException;
 import com.PartyTonight.PartyTonight.global.s3.exception.InvalidFileExtensionException;
 import com.amazonaws.services.s3.AmazonS3;
-import com.amazonaws.services.s3.model.CannedAccessControlList;
-import com.amazonaws.services.s3.model.DeleteObjectRequest;
-import com.amazonaws.services.s3.model.ObjectMetadata;
-import com.amazonaws.services.s3.model.PutObjectRequest;
+import com.amazonaws.services.s3.model.*;
+import com.amazonaws.util.IOUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.ByteArrayResource;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -83,6 +82,18 @@ public class S3ImageService {
             return decodingKey.substring(1); // 맨 앞의 '/' 제거
         }catch (MalformedURLException e){
             throw new FileDeleteFailureException();
+        }
+    }
+
+    public ByteArrayResource downloadFile(S3ImageDto dto) {
+        String key = getKeyFromImageAddress(dto.getImageUrl());
+        S3Object s3Object = amazonS3.getObject(BUCKET_NAME, key);
+        S3ObjectInputStream inputStream = s3Object.getObjectContent();
+        try {
+            byte[] data = IOUtils.toByteArray(inputStream);
+            return new ByteArrayResource(data);
+        } catch (IOException e) {
+            throw new IllegalStateException("aws s3 다운로드 error");
         }
     }
 }
