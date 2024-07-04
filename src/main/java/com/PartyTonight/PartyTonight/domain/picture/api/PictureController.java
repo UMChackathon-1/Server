@@ -38,26 +38,32 @@ public class PictureController implements PictureApi {
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    @PostMapping("/like/{id}")
+    @PostMapping("/{id}/like")
     public void createLike(@PathVariable final Long id) {
         pictureService.createLike(id);
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    @DeleteMapping("/like/{id}")
+    @DeleteMapping("/{id}/like")
     public void cancelLike(@PathVariable final Long id) {
         pictureService.cancelLike(id);
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    @PostMapping("/dislike/{id}")
+    @PostMapping("/{id}/dislike")
     public void createDislike(@PathVariable final Long id) {
         pictureService.createDislike(id);
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    @DeleteMapping("/dislike/{id}")
+    @DeleteMapping("/{id}/dislike")
     public void cancelDislike(@PathVariable final Long id) {
         pictureService.cancelDislike(id);
+    }
+
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @PutMapping("/{id}/download")
+    public void download(@PathVariable final Long id) {
+        pictureService.dowload(id);
     }
 }

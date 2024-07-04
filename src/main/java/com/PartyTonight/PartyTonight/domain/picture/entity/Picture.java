@@ -38,4 +38,8 @@ public class Picture extends BaseTimeEntity {
     public void increaseViews() {
         views++;
     }
+
+    public void increaseDownloadCnt() {
+        downloadCnt++;
+    }
 }
