@@ -19,7 +19,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 @Getter
 @Slf4j
-public class JwtService {
+public class JwtService  {
 
     @Value("${jwt.secret-key}")
     private String secretKey;
