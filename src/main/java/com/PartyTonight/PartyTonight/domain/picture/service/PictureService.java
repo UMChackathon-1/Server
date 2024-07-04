@@ -105,4 +105,10 @@ public class PictureService {
         PictureDislike pictureDislike = pictureDislikeRepository.findByMemberAndPicture(member, picture);
         pictureDislikeRepository.delete(pictureDislike);
     }
+
+    @Transactional
+    public void dowload(Long id) {
+        Picture picture = pictureRepository.findById(id).orElseThrow(EntityNotFoundException::new);
+        picture.increaseDownloadCnt();
+    }
 }
