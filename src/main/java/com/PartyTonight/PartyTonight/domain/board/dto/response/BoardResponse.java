@@ -1,5 +1,6 @@
 package com.PartyTonight.PartyTonight.domain.board.dto.response;
 
+import com.PartyTonight.PartyTonight.domain.board.entity.BoardType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -12,6 +13,13 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 public class BoardResponse {
-    Long boardId;
-    LocalDateTime createdAt;
+
+    private Long boardId;
+    private Long memberId;
+    private Integer views;
+    private String title;
+    private String content;
+    private BoardType boardType;
+    private LocalDateTime createdAt;
+
 }

@@ -22,7 +22,7 @@ public class Board extends BaseTimeEntity {
 
     private String title;
     private String content;
-    private String readCount;
+    private Integer views;
 
     @Enumerated(EnumType.STRING)
     private BoardType boardType;
@@ -34,5 +34,16 @@ public class Board extends BaseTimeEntity {
     @JoinColumn(name = "member_id")
     private Member member;
 
+    @Builder
+    public Board(String title, String content, Member member) {
+        this.title = title;
+        this.content = content;
+        this.member = member;
+        this.views = 0;
+    }
+
+    public void increaseViews() {
+        views++;
+    }
 
 }
