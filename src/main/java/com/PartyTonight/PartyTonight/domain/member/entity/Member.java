@@ -1,9 +1,14 @@
 package com.PartyTonight.PartyTonight.domain.member.entity;
 
+import com.PartyTonight.PartyTonight.domain.board.entity.Board;
+import com.PartyTonight.PartyTonight.domain.comment.entity.Comment;
 import com.PartyTonight.PartyTonight.domain.member.dto.SignUpRequest;
 import com.PartyTonight.PartyTonight.global.config.BaseTimeEntity;
 import jakarta.persistence.*;
 import lombok.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -29,6 +34,12 @@ public class Member extends BaseTimeEntity {
 
     @Enumerated(EnumType.STRING)
     private Status status;
+
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
+    private List<Board> boardList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
+    private List<Comment> commentList = new ArrayList<>();
 
     public void signUp(SignUpRequest dto) {
         this.nickname = dto.getNickname();
