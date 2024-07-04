@@ -14,7 +14,7 @@ public class MemberController {
     private final MemberService memberService;
 
     @ResponseStatus(HttpStatus.CREATED)
-    @PostMapping("/profile")
+    @GetMapping("/profile")
     public ProfileResponse getProfile() {
         return memberService.getProfile();
     }
