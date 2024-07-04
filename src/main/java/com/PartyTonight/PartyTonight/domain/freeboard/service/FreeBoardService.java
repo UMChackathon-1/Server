@@ -1,13 +1,14 @@
 package com.PartyTonight.PartyTonight.domain.freeboard.service;
 
-import com.PartyTonight.PartyTonight.domain.freecomment.entity.FreeComment;
-import com.PartyTonight.PartyTonight.domain.freecomment.repository.FreeCommentRepository;
 import com.PartyTonight.PartyTonight.domain.freeboard.dto.request.FreeBoardRequest;
 import com.PartyTonight.PartyTonight.domain.freeboard.dto.response.FreeBoardDetailResponse;
 import com.PartyTonight.PartyTonight.domain.freeboard.dto.response.FreeBoardPreviewResponse;
 import com.PartyTonight.PartyTonight.domain.freeboard.entity.FreeBoard;
 import com.PartyTonight.PartyTonight.domain.freeboard.repository.FreeBoardRepository;
+import com.PartyTonight.PartyTonight.domain.freecomment.entity.FreeComment;
+import com.PartyTonight.PartyTonight.domain.freecomment.repository.FreeCommentRepository;
 import com.PartyTonight.PartyTonight.domain.member.entity.Member;
+import com.PartyTonight.PartyTonight.domain.member.repository.MemberRepository;
 import com.PartyTonight.PartyTonight.domain.member.service.AuthService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -26,6 +27,7 @@ public class FreeBoardService {
     private final FreeBoardRepository freeBoardRepository;
     private final AuthService authService;
     private final FreeCommentRepository freeCommentRepository;
+    private final MemberRepository memberRepository;
 
     @Transactional
     public void createFreeBoard(FreeBoardRequest request) {
@@ -39,13 +41,12 @@ public class FreeBoardService {
     }
 
     public List<FreeBoardPreviewResponse> getAllFreeBoards() {
-        Member member = authService.getLoginUser();
         List<FreeBoard> boards = freeBoardRepository.findAll(Sort.by(Sort.Direction.DESC, "id"));
         List<FreeBoardPreviewResponse> responses = new ArrayList<>();
 
         boards.forEach(board -> responses.add(FreeBoardPreviewResponse.builder()
                 .boardId(board.getId())
-                .memberId(member.getId())
+                .memberId(board.getMember().getId())
                 .title(board.getTitle())
                 .views(board.getViews())
                 .createdAt(board.getCreatedAt())
@@ -55,13 +56,12 @@ public class FreeBoardService {
     }
 
     public List<FreeBoardPreviewResponse> getFreeBoardsOrderedByViews() {
-        Member member = authService.getLoginUser();
         List<FreeBoard> freeboards = freeBoardRepository.findAll(Sort.by(Sort.Direction.DESC, "Views"));
         List<FreeBoardPreviewResponse> responses = new ArrayList<>();
 
         freeboards.forEach(board -> responses.add(FreeBoardPreviewResponse.builder()
                 .boardId(board.getId())
-                .memberId(member.getId())
+                .memberId(board.getMember().getId())
                 .title(board.getTitle())
                 .views(board.getViews())
                 .createdAt(board.getCreatedAt())
@@ -72,7 +72,6 @@ public class FreeBoardService {
 
     @Transactional
     public FreeBoardDetailResponse getFreeBoard(Long id) {
-        Member member = authService.getLoginUser();
         List<FreeComment> freeComments = freeCommentRepository.findAllByFreeBoardId(id);
         FreeBoard freeboard = freeBoardRepository.findById(id).orElseThrow(EntityNotFoundException::new);
         freeboard.increaseViews();
@@ -81,7 +80,7 @@ public class FreeBoardService {
                 .title(freeboard.getTitle())
                 .content(freeboard.getContent())
                 .views(freeboard.getViews())
-                .memberId(member.getId())
+                .memberId(freeboard.getMember().getId())
                 .freeComments(freeComments)
                 .createdAt(freeboard.getCreatedAt())
                 .build();

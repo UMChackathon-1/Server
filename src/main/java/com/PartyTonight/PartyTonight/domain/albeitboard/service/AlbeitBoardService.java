@@ -7,8 +7,6 @@ import com.PartyTonight.PartyTonight.domain.albeitboard.entity.AlbeitBoard;
 import com.PartyTonight.PartyTonight.domain.albeitboard.repository.AlbeitBoardRepository;
 import com.PartyTonight.PartyTonight.domain.albeitcomment.entity.AlbeitComment;
 import com.PartyTonight.PartyTonight.domain.albeitcomment.repository.AlbeitCommentRepository;
-import com.PartyTonight.PartyTonight.domain.freecomment.entity.FreeComment;
-import com.PartyTonight.PartyTonight.domain.freecomment.repository.FreeCommentRepository;
 import com.PartyTonight.PartyTonight.domain.member.entity.Member;
 import com.PartyTonight.PartyTonight.domain.member.service.AuthService;
 import jakarta.persistence.EntityNotFoundException;
@@ -41,13 +39,12 @@ public class AlbeitBoardService {
     }
 
     public List<AlbeitBoardPreviewResponse> getAllAlbeitBoards() {
-        Member member = authService.getLoginUser();
         List<AlbeitBoard> boards = albeitBoardRepository.findAll(Sort.by(Sort.Direction.DESC, "id"));
         List<AlbeitBoardPreviewResponse> responses = new ArrayList<>();
 
         boards.forEach(board -> responses.add(AlbeitBoardPreviewResponse.builder()
                 .boardId(board.getId())
-                .memberId(member.getId())
+                .memberId(board.getMember().getId())
                 .title(board.getTitle())
                 .views(board.getViews())
                 .createdAt(board.getCreatedAt())
@@ -57,13 +54,12 @@ public class AlbeitBoardService {
     }
 
     public List<AlbeitBoardPreviewResponse> getAlbeitBoardsOrderedByViews() {
-        Member member = authService.getLoginUser();
         List<AlbeitBoard> albeitBoards = albeitBoardRepository.findAll(Sort.by(Sort.Direction.DESC, "Views"));
         List<AlbeitBoardPreviewResponse> responses = new ArrayList<>();
 
         albeitBoards.forEach(board -> responses.add(AlbeitBoardPreviewResponse.builder()
                 .boardId(board.getId())
-                .memberId(member.getId())
+                .memberId(board.getMember().getId())
                 .title(board.getTitle())
                 .views(board.getViews())
                 .createdAt(board.getCreatedAt())
@@ -74,7 +70,6 @@ public class AlbeitBoardService {
 
     @Transactional
     public AlbeitBoardDetailResponse getAlbeitBoard(Long id) {
-        Member member = authService.getLoginUser();
         List<AlbeitComment> albeitComments = albeitCommentRepository.findAllByAlbeitBoardId(id);
         AlbeitBoard albeitboard = albeitBoardRepository.findById(id).orElseThrow(EntityNotFoundException::new);
         albeitboard.increaseViews();
@@ -83,7 +78,7 @@ public class AlbeitBoardService {
                 .title(albeitboard.getTitle())
                 .content(albeitboard.getContent())
                 .views(albeitboard.getViews())
-                .memberId(member.getId())
+                .memberId(albeitboard.getMember().getId())
                 .albeitComments(albeitComments)
                 .createdAt(albeitboard.getCreatedAt())
                 .build();

@@ -34,7 +34,6 @@ public class AlbeitCommentService {
     }
 
     public List<AlbeitComment> getAlbeitComments(Long boardId) {
-        AlbeitBoard albeitBoard = albeitBoardRepository.findById(boardId).orElseThrow(EntityNotFoundException::new);
         return albeitCommentRepository.findAllByAlbeitBoardId(boardId);
     }
 

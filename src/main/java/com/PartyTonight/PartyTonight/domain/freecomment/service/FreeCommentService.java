@@ -34,7 +34,6 @@ public class FreeCommentService {
     }
 
     public List<FreeComment> getFreeComments(Long boardId) {
-        FreeBoard freeboard = freeBoardRepository.findById(boardId).orElseThrow(EntityNotFoundException::new);
         return freeCommentRepository.findAllByFreeBoardId(boardId);
     }
 
